@@ -1,10 +1,12 @@
 package emerald_gear;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroups;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterials;
@@ -35,8 +37,20 @@ public class EmeraldGear implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        // Регистрация предметов
         Registry.register(Registries.ITEM, new Identifier(MOD_ID, "emerald_apple"), EMERALD_APPLE);
         Registry.register(Registries.ITEM, new Identifier(MOD_ID, "emerald_sword"), EMERALD_SWORD);
         Registry.register(Registries.ITEM, new Identifier(MOD_ID, "emerald_pickaxe"), EMERALD_PICKAXE);
+
+        // Добавление предметов во вкладки креатива
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(content -> {
+            content.add(EMERALD_APPLE);
+        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(content -> {
+            content.add(EMERALD_SWORD);
+        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
+            content.add(EMERALD_PICKAXE);
+        });
     }
 }
